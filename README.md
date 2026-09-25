@@ -76,21 +76,41 @@ node validate-news.js path/to/submitted-news.json
 ### Recommended publishing workflow
 
 Whoever ends up responsible for deployment should treat this as a gate, not
-an optional step:
+an optional step. This can be done by hand, or automated — two ready-made
+options are included:
 
-1. Receive the updated JSON file from the news writer (however that happens —
-   email, shared drive, upload form, etc. — this repo doesn't assume a
-   specific channel).
+**Option A — automated, if the workflow is git-based** (e.g. the writer's
+file lands via a commit/PR, and Vercel or similar stays connected to the
+repo): `.github/workflows/validate-news.yml` runs `validate-news.js`
+automatically on every push/PR that touches `public/news.json`. Set it as a
+**required status check** (GitHub repo Settings → Branches → branch
+protection rule on `main`) and a bad file literally cannot be merged — no
+human has to remember to run anything.
+
+**Option B — automated, for any other handoff** (email, upload, shared
+folder — whatever channel the writer uses): `publish-news.sh` wraps
+"validate, then copy only if valid" into one command:
+
+```bash
+./publish-news.sh path/to/submitted-news.json public/news.json
+```
+
+It exits `0` and copies the file only if validation passes; otherwise it
+exits `1`, prints the errors, and leaves the live file untouched. Wire this
+into whatever publishing step ends up being used (a manual command, a cron
+job watching a drop folder, an upload endpoint — anything that can shell out
+to a script).
+
+**Option C — fully manual**, if neither of the above fits the eventual
+setup:
+
+1. Receive the updated JSON file from the news writer.
 2. Run `node validate-news.js <that-file>`.
-3. Only if it passes: replace `public/news.json` on the server with the new
-   file (and rebuild `dist/news.json` if serving from a `dist/` folder — see
-   Deployment below).
-4. If it fails: don't publish. Share the error output with the writer so
-   they know exactly what to fix.
+3. Only if it passes: replace `public/news.json` (and `dist/news.json` if
+   serving from a `dist/` folder) with the new file.
+4. If it fails: don't publish — share the error output with the writer.
 
-This can be done by hand, or wired into whatever deploy process is used
-later (e.g. a CI check, a small upload script that runs the validator before
-writing the file). Nothing about `news.jsx` needs to change either way.
+Nothing about `news.jsx` needs to change no matter which option is used.
 
 ## Deployment
 
@@ -126,6 +146,8 @@ news.jsx             main React component (fetches /news.json at runtime)
 public/news.json     the news content — the ONLY file a non-technical
                       editor should ever touch
 validate-news.js     run this on any updated news.json before publishing it
+publish-news.sh      validate + publish in one command (see above)
+.github/workflows/validate-news.yml   auto-validates news.json on push/PR
 src/main.jsx         app bootstrap, theme toggle
 src/index.css        global styles (Tailwind)
 vite.config.js, tailwind.config.js, postcss.config.js   build tooling config
