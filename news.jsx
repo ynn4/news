@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
-import DATABASE from './news.json';
+import React, { useState, useEffect } from 'react';
+
+// ---------------------------------------------------------------------------
+// News data is fetched at runtime from /news.json (a static file, NOT bundled
+// into the JS build). This means content can be updated by replacing that one
+// file on the server — no rebuild/redeploy needed — and a malformed JSON file
+// can only ever break the news content (caught below), never the app shell.
+// ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
 // UI Translations
@@ -58,8 +64,8 @@ const UI_STRINGS = {
 // ---------------------------------------------------------------------------
 // Helper: get articles filtered by tab and optional sidebar flag
 // ---------------------------------------------------------------------------
-function getArticles({ tab, sidebar = false, category = null }) {
-  return Object.entries(DATABASE)
+function getArticles(database, { tab, sidebar = false, category = null }) {
+  return Object.entries(database)
     .filter(([, article]) => {
       const tabMatch = article.tab && article.tab.includes(tab);
       const sidebarMatch = article.sidebar === sidebar;
@@ -112,8 +118,8 @@ function ListCard({ article, lang, onOpen, isLast }) {
 }
 
 /** Category cluster: 1 hero (featured) + N list cards */
-function CategoryCluster({ catKey, tab, lang, onOpen, showExtra, catTitle, isExpandable, onExpand }) {
-  const allInCat = getArticles({ tab, sidebar: false, category: catKey });
+function CategoryCluster({ database, catKey, tab, lang, onOpen, showExtra, catTitle, isExpandable, onExpand }) {
+  const allInCat = getArticles(database, { tab, sidebar: false, category: catKey });
   if (allInCat.length === 0) return null;
 
   const hero = allInCat.find((a) => a.featured) || allInCat[0];
@@ -186,6 +192,47 @@ export default function News() {
   const [activeArticleId, setActiveArticleId] = useState(null);
   const [showExtra, setShowExtra] = useState(false);
 
+  // Fetched at runtime from /news.json — see note at top of file.
+  const [database, setDatabase] = useState(null); // null = still loading
+  const [loadError, setLoadError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/news.json', { cache: 'no-store' })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setDatabase(data);
+        try {
+          localStorage.setItem('news-cache', JSON.stringify(data));
+        } catch (e) {
+          // localStorage unavailable/full — not critical, just skip caching
+        }
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        // news.json is missing or broken — fall back to the last good copy
+        // this browser saw, so visitors keep seeing real content instead of
+        // an error, exactly like a bad deploy not going live.
+        try {
+          const cached = localStorage.getItem('news-cache');
+          if (cached) {
+            setDatabase(JSON.parse(cached));
+            return;
+          }
+        } catch (e) {
+          // fall through to error state
+        }
+        setLoadError(err);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const t = UI_STRINGS[currentLang] || UI_STRINGS.en;
   const isRTL = currentLang === 'ar';
 
@@ -204,14 +251,29 @@ export default function News() {
     closeArticle();
   };
 
-  const activeArticle = activeArticleId && DATABASE[activeArticleId] ? DATABASE[activeArticleId] : null;
+  const activeArticle =
+    database && activeArticleId && database[activeArticleId] ? database[activeArticleId] : null;
   const activeArticleContent = activeArticle && activeArticle[currentLang] ? activeArticle[currentLang] : null;
 
   // Sidebar articles: sidebar:true, matching current tab
-  const sidebarArticles = getArticles({ tab: activeTab, sidebar: true });
+  const sidebarArticles = database ? getArticles(database, { tab: activeTab, sidebar: true }) : [];
 
   // Categories visible in the current tab
   const visibleCategories = CATEGORY_CONFIG.filter((c) => c.tabs.includes(activeTab));
+
+  // ── Loading / error states (news.json failed or hasn't arrived yet) ──────
+  if (loadError) {
+    return (
+      <div className="min-h-full w-full flex items-center justify-center p-8 text-center bg-[#FAFAFA] dark:bg-[#0a0a0c] text-zinc-900 dark:text-zinc-100">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          Unable to load the latest news right now. Please try again shortly.
+        </p>
+      </div>
+    );
+  }
+  if (!database) {
+    return <div className="min-h-full w-full bg-[#FAFAFA] dark:bg-[#0a0a0c]" />;
+  }
 
   return (
     <div
@@ -321,7 +383,7 @@ export default function News() {
                     // Still render the "See more" button attached to previous cluster
                     return null;
                   }
-                  const catArticles = getArticles({ tab: activeTab, sidebar: false, category: catConfig.key });
+                  const catArticles = getArticles(database, { tab: activeTab, sidebar: false, category: catConfig.key });
                   if (catArticles.length === 0) return null;
 
                   return (
@@ -330,6 +392,7 @@ export default function News() {
                         <div className="w-full h-px bg-zinc-200 dark:bg-zinc-800/80 my-1" />
                       )}
                       <CategoryCluster
+                        database={database}
                         catKey={catConfig.key}
                         tab={activeTab}
                         lang={currentLang}
