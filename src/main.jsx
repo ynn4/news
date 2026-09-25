@@ -4,23 +4,31 @@ import News from '../news.jsx';
 import './index.css';
 
 function App() {
-  const [isDark, setIsDark] = useState(() => {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  // Read the initial theme from the <html> class set by the blocking script in index.html.
+  // This avoids any useState(false) → re-render flash.
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.classList.contains('dark')
+  );
 
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+  const toggleTheme = () => {
+    setIsDark((prev) => {
+      const next = !prev;
+      if (next) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      return next;
+    });
+  };
 
   return (
     <div className="relative min-h-screen">
-      {/* Floating Theme Toggle button */}
+      {/* Floating Theme Toggle */}
       <button
-        onClick={() => setIsDark((prev) => !prev)}
+        onClick={toggleTheme}
         title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         aria-label="Toggle theme"
         className="fixed bottom-6 right-6 z-50 p-3 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-800/95 backdrop-blur text-zinc-800 dark:text-zinc-200 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"

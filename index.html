@@ -8,6 +8,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!--
+      DARK MODE FLASH PREVENTION
+      This script runs synchronously before the browser paints a single pixel.
+      It reads localStorage (user preference) or falls back to the OS preference,
+      then immediately adds/removes the "dark" class on <html>.
+      Because it's inline and blocking, the correct theme is applied before
+      any CSS or React renders — eliminating the flash entirely.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-[#FAFAFA] dark:bg-[#0a0a0c] text-zinc-900 dark:text-zinc-100 min-h-screen">
     <div id="root"></div>

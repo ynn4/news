@@ -1,6 +1,10 @@
 {
   "law-59-21": {
     "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat1",
+    "featured": true,
+    "sidebar": false,
     "en": {
       "title": "Law 59.21: New mandatory contracts strip private institutions of unilateral financial authority",
       "meta": "2 hours ago • By Policy Desk",
@@ -19,6 +23,10 @@
   },
   "conseil-concurrence": {
     "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat1",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Intervention of the Conseil de la Concurrence: Education cannot be treated as a commercial commodity",
       "meta": "4 hours ago • By Economic Reporter",
@@ -37,6 +45,10 @@
   },
   "tax-dilemma": {
     "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat1",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "The \"Double Taxation\" Dilemma: Middle class parents demand fiscal relief for private tuition",
       "meta": "8 hours ago • By Financial Desk",
@@ -55,6 +67,10 @@
   },
   "africa50-holged": {
     "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat1",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Africa50 injects 88.3 million MAD into Holged Group, driving pan-African expansion",
       "meta": "15 hours ago • By Investment Desk",
@@ -73,6 +89,10 @@
   },
   "ecoles-pionnieres": {
     "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "public"],
+    "category": "cat2",
+    "featured": true,
+    "sidebar": false,
     "en": {
       "title": "State launches \"Écoles Pionnières\" utilizing TaRL to rehabilitate the public education system",
       "meta": "12 hours ago • By Special Correspondent",
@@ -91,6 +111,10 @@
   },
   "talent-war": {
     "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "public"],
+    "category": "cat2",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "The end of the moonlighting era: State bans public civil servants from teaching in private sector",
       "meta": "18 hours ago • By HR Insights",
@@ -109,6 +133,10 @@
   },
   "teacher-wages": {
     "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "public"],
+    "category": "cat2",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Public sector secures historic wage increases following massive national strikes",
       "meta": "1 day ago • By Labor Desk",
@@ -127,6 +155,10 @@
   },
   "aefe-crisis": {
     "image": "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat3",
+    "featured": true,
+    "sidebar": false,
     "en": {
       "title": "AEFE Crisis: French schools face organized strikes as parents refuse to fund civil pensions",
       "meta": "Yesterday • By Education Analyst",
@@ -145,6 +177,10 @@
   },
   "ib-cambridge": {
     "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat3",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Ascension of the International Baccalaureate (IB) and Cambridge Models among the Elite",
       "meta": "21 hours ago • By Curriculum Review",
@@ -163,6 +199,10 @@
   },
   "domestic-higher-ed": {
     "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat3",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Strategic Alignment with Domestic Premium Higher Education (AUI, UM6P) accelerates English adoption",
       "meta": "2 days ago • By Higher Ed Desk",
@@ -181,6 +221,10 @@
   },
   "opci-revolution": {
     "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat4",
+    "featured": true,
+    "sidebar": false,
     "en": {
       "title": "The OPCI revolution: Sale-and-leaseback transactions unlock massive liquidity for school operators",
       "meta": "2 days ago • By Real Estate Editor",
@@ -199,6 +243,10 @@
   },
   "edtech-integration": {
     "image": "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat4",
+    "featured": false,
+    "sidebar": false,
     "en": {
       "title": "Digital Transformation: Law 59.21 forces deep integration of EdTech and the Massar platform",
       "meta": "3 days ago • By Technology Desk",
@@ -217,6 +265,10 @@
   },
   "casablanca-epicenter": {
     "image": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=150&auto=format&fit=crop",
+    "tab": ["home", "private"],
+    "category": "cat1",
+    "featured": false,
+    "sidebar": true,
     "en": {
       "title": "Casablanca remains the hyper-competitive epicenter for premium international education",
       "meta": "4 hours ago • By Regional Analyst",
@@ -235,6 +287,10 @@
   },
   "rabat-higher-ed": {
     "image": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=150&auto=format&fit=crop",
+    "tab": ["home", "public"],
+    "category": "cat2",
+    "featured": false,
+    "sidebar": true,
     "en": {
       "title": "Rabat consolidates position as administrative and higher education nexus with ISGA and UIR",
       "meta": "1 day ago • By Education Analyst",
@@ -253,6 +309,10 @@
   },
   "marrakech-montessori": {
     "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=150&auto=format&fit=crop",
+    "tab": ["home", "private", "public"],
+    "category": "cat2",
+    "featured": false,
+    "sidebar": true,
     "en": {
       "title": "Tangier and Marrakech emerge as high-growth expansion markets driven by industrialization",
       "meta": "2 days ago • By Market Research",
